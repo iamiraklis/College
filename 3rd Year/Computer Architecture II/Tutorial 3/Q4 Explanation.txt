@@ -1,0 +1,6 @@
+To measure the time elapsed, I used the clock_t function of time.h which takes the current CPU time.
+Then, I subtracted the start CPU time from the end CPU time giving me the total CPU time it took
+to compute pascal. This is a quite accurate measurement as it very CPU dependant. However the
+CLOCKS_PER_SEC macro which converts to real time, only does so to a few decimal places. Other CPUs
+would produce different results.
+The program was ran on a Macbook Air 2020 (using Windows) i5 1030NG7 CPU at 1.1Ghz (Max 3.5Ghz).

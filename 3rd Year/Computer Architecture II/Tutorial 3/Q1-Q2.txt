@@ -1,0 +1,88 @@
+
+;   ----- Question 1 -----
+    add r0, #4, r9        ; r9 = inp-int = 4
+
+max:
+    add r0, r26, r1       ; r1 = v = a
+    sub r27, r1, r0, {C}  ; if (b > v)
+    jle else              ; b < = v
+    xor r0, r0, r0
+    add r0, r27, r1       ; r1 = v = b
+
+else:
+    sub r28, r1, r0, {C}  ; if (c > v)
+    jle else2             ; c < = v
+    xor r0, r0, r0
+    add r0, r28, r1       ; r1 = v = c
+
+else2:
+    ret r31, 0            ; return v
+    xor r0, r0, r0
+
+max5:
+    add r0, r9, r10       ; r10 = inp_int
+    add r0, r26, r11      ; r11 = i
+    add r0, r27, r12      ; r12 = j
+    callr r15, max        ; call max(inp_int, i, j)
+    xor r0, r0, r0
+    ---
+    add r0, r1, r10       ; r10 = max(inp_int, i, j)
+    add r0, r28, r11      ; r11 = k
+    add r0, r29, r12      ; r12 = l
+    callr r15, max        ; call max(max(inp_int, i, j))
+
+    ret r31, 0
+    xor r0, r0, r0
+
+;   ----- Question 2 -----
+fun:
+    sub r27, r0, r0, {C}  ; if (b = 0)
+    jne notEqual
+    xor r0, r0, r0
+    ret r31, 0
+    xor r0, r0, r0
+
+notEqual:
+    add r27, r0, r10      ; b as parameter for modulus function
+    add #2, r0, r11       ; 2 as parameter for modulus function
+    callr r15, modulus
+    xor r0, r0, r0
+    sub r1, r0, r0, {C}  ; if (b % 2 = 0)
+    jne notEqual2
+
+    add r27, r0, r10     ; b as parameter for modulus function
+    add #2, r0, r11      ; 2 as parameter for modulus function
+    callr r15, divide    ; call divide for (b / 2 )
+    xor r0, r0, r0
+
+    add r26, r26, r10   ; a + a
+    add r1, r0, r11    ; (b / 2 )
+    callr r15, fun      ; call fun(a + a, b/2)
+    xor r0, r0, r0
+    ret r31, 0
+
+    add r27, r0, r10     ; b as parameter for modulus function
+    add #2, r0, r11      ; 2 as parameter for modulus function
+    callr r15, divide    ; call divide for (b / 2 )
+    xor r0, r0, r0
+
+    add r26, r26, r10   ; a + a
+    add r1, r0, r11    ; (b / 2 )
+    callr r15, fun      ; call fun(a + a, b/2)
+    xor r0, r0, r0
+
+notEqual2:
+
+    add r27, r0, r10     ; b as parameter for modulus function
+    add #2, r0, r11      ; 2 as parameter for modulus function
+    callr r15, divide    ; call divide for (b / 2 )
+    xor r0, r0, r0
+
+    add r26, r26, r10   ; a + a
+    add r1, r0, r11    ; (b / 2 )
+    callr r15, fun      ; call fun(a + a, b/2)
+    xor r0, r0, r0
+
+    add r1, r26, r31
+    ret r31, 0
+    xor r0, r0, r0
